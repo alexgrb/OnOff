@@ -6,8 +6,8 @@ var context, controller, rectangle, loop;
 
 context = document.querySelector("canvas").getContext("2d");
 
-context.canvas.height = 180;
-context.canvas.width = 320;
+context.canvas.height = 500;
+context.canvas.width = 500;
 
 rectangle = {
 
@@ -90,11 +90,11 @@ loop = function() {
 
     // if rectangle is falling below floor line
     //180 = bottom of the screen - 16 la ligne, 32 le haut du rectangle
-    if (rectangle.y > 180 - 16 - 32) {
+    if (rectangle.y > 500 - 100 - 32) {
 
         //set jumping to false so we can jump again
         rectangle.jumping = false;
-        rectangle.y = 180 - 16 - 32;
+        rectangle.y = 500 - 100 - 32;
         rectangle.y_velocity = 0;
 
     }
@@ -104,14 +104,14 @@ loop = function() {
 
         rectangle.x = 0;
 
-    } else if (rectangle.x > 320 - 32) {// if rectangle goes past right boundary
+    } else if (rectangle.x > 500 - 32) {// if rectangle goes past right boundary
 
-        rectangle.x = 320 - 32;
+        rectangle.x = 500 - 32;
 
     }
 
     context.fillStyle = "#202020";
-    context.fillRect(0, 0, 320, 180);// x, y, width, height
+    context.fillRect(0, 0, 500, 500);// x, y, width, height
     context.fillStyle = "#ff0000";// hex for red
     context.beginPath();
     context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
@@ -119,8 +119,8 @@ loop = function() {
     context.strokeStyle = "#202830";
     context.lineWidth = 4;
     context.beginPath();
-    context.moveTo(0, 164);
-    context.lineTo(320, 164);
+    context.moveTo(0, 400);
+    context.lineTo(500, 400);
     context.stroke();
 
     // call update when the browser is ready to draw again

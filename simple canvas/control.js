@@ -3,7 +3,8 @@
 
 //defining variables, drawing context, controller, rectangle and the loop
 var context, controller, rectangle, loop;
-
+const timeElem = document.querySelector("#time");
+var requestId;
 context = document.querySelector("canvas").getContext("2d");
 
 context.canvas.height = 500;
@@ -60,7 +61,7 @@ controller = {
 };
 
 loop = function() {
-
+    requestId = undefined;
     if (controller.up && rectangle.jumping == false) {
 
         rectangle.y_velocity -= 20;
@@ -110,6 +111,7 @@ loop = function() {
 
     } else if (rectangle.x > 500 - 32) {// if rectangle goes past right boundary
 
+        //return;
         rectangle.x = 500 - 32;
 
     }
@@ -130,9 +132,31 @@ loop = function() {
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(loop);
 
+
 };
 
 //adding the listeners to the specific objects
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 window.requestAnimationFrame(loop);
+
+/*
+function start() {
+    if (!requestId) {
+        requestId = window.requestAnimationFrame(loop);
+    }
+}
+
+function stop() {
+    if (requestId) {
+        window.cancelAnimationFrame(requestId);
+        requestId = undefined;
+    }
+}
+document.querySelector("#start").addEventListener('click', function() {
+    start();
+});
+
+document.querySelector("#stop").addEventListener('click', function() {
+    stop();
+});*/

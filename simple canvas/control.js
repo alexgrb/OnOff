@@ -164,7 +164,18 @@ loop = function() {
     context.drawImage(heroImage, hero.x, hero.y);
     context.drawImage(starImage, star.x, star.y);
     // call update when the browser is ready to draw again
-    window.requestAnimationFrame(loop);
+
+    if (
+        rectangle.x <= (star.x + 50)
+        && star.x <= (rectangle.x + 32)
+        && rectangle.y <= (star.y + 50)
+        && star.y <= (rectangle.y + 32)
+    ){
+       return;
+    }
+    else {
+        window.requestAnimationFrame(loop);
+    }
 };
 
 //adding the listeners to the specific objects
@@ -185,6 +196,7 @@ function stop() {
         requestId = undefined;
     }
 }
+
 document.querySelector("#start").addEventListener('click', function() {
     start();
 });

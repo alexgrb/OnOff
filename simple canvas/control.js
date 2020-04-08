@@ -1,6 +1,3 @@
-// Frank Poth 08/13/2017
-
-
 //defining variables, drawing context, controller, rectangle and the loop
 var context, controller, rectangle, loop;
 const timeElem = document.querySelector("#time");
@@ -166,12 +163,8 @@ loop = function() {
     context.stroke();
     context.drawImage(heroImage, hero.x, hero.y);
     context.drawImage(starImage, star.x, star.y);
-
-
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(loop);
-
-
 };
 
 //adding the listeners to the specific objects

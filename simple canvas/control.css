@@ -14,11 +14,12 @@ body {
     align-content:space-around;
     /*    background-color:#202830;*/
     background-color:#ffffff;
-    color:#ffffff;
+    color:black;
     display:grid;
     justify-content:center;
 }
 
 canvas {
     background-color: #ffffff;
+   /* border: 1px  black; */
 }

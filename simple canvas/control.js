@@ -10,7 +10,16 @@ context = document.querySelector("canvas").getContext("2d");
 context.canvas.height = 500;
 context.canvas.width = 500;
 
+var hero = {
+    speed: 256, // movement in pixels per second
+    x: 34,
+    y: 122
+};
 
+var star = {
+    x: 450,
+    y: 350
+};
 rectangle = {
 
     height:32,
@@ -24,14 +33,40 @@ rectangle = {
     y_velocity:0
 
 };
-/*
+
 var heroImage = new Image();
-rectangle = new Image();
 heroImage.onload = function () {
-    heroReady = true;
 };
-rectangle.src = "images/hero.png";
-*/
+heroImage.src = "images/sunvf.png";
+
+var monsterImage = new Image();
+monsterImage.onload = function () {
+};
+monsterImage.src = "images/monster.png";
+
+
+var starReady = false;
+var starImage = new Image();
+starImage.onload = function () {
+    starReady = true;
+};
+starImage.src = "images/starvf.png";
+
+if (starReady) {
+    context.drawImage(starImage, star.x, star.y);
+}
+
+
+/*
+x.fillStyle = "rgb(250, 250, 250)";
+ctx.font = "24px Helvetica";
+ctx.textAlign = "left";
+ctx.textBaseline = "top";
+ctx.fillText("Monsterrs caught: " + monstersCaught, 32, 32);
+
+ */
+
+
 controller = {
 
     left:false,
@@ -46,18 +81,18 @@ controller = {
 
             case 37:// left key
                 controller.left = key_state;
+                //hero.x -= hero.speed * event;
                 break;
             case 38:// up key
                 controller.up = key_state;
+                //hero.y -= hero.speed * event;
                 break;
             case 39:// right key
                 controller.right = key_state;
+                //hero.x += hero.speed * event;
                 break;
-
         }
-
     }
-
 };
 
 loop = function() {
@@ -116,11 +151,12 @@ loop = function() {
 
     }
 
-    context.fillStyle = "#202020";
+    context.fillStyle = "#ffffff";
     context.fillRect(0, 0, 500, 500);// x, y, width, height
-    context.fillStyle = "#ff0000";// hex for red
+    /*context.fillStyle = "#ff0000";// hex for red */
     context.beginPath();
-    context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    context.drawImage(monsterImage, rectangle.x, rectangle.y)
+    /*context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);*/
     context.fill();
     context.strokeStyle = "#202830";
     context.lineWidth = 4;
@@ -128,6 +164,9 @@ loop = function() {
     context.moveTo(0, 400);
     context.lineTo(500, 400);
     context.stroke();
+    context.drawImage(heroImage, hero.x, hero.y);
+    context.drawImage(starImage, star.x, star.y);
+
 
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(loop);

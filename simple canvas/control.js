@@ -151,15 +151,13 @@ function draw() {
     if (hero.x <= (star.x + 50) && star.x <= (hero.x + 32)
         && hero.y <= (star.y + 50) && star.y <= (hero.y + 32)) {
         lives--;
+        hero.x = 250;
+        hero.y = 0;
     } else if (!lives) {
         alert("GAME OVER");
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
-    } else {
-
     }
-
-
     requestAnimationFrame(draw);
 
 };

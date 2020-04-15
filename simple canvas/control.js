@@ -26,15 +26,10 @@ var sun = {
     x: 34,
     y: 122
 };
-var sunImage = new Image();
-sunImage.src = "images/sunvf.png";
-
 var star = {
     x: 300,
     y: 300
 };
-var starImage = new Image();
-starImage.src = "images/starvf.png";
 
 monster = {
     height: 32,
@@ -45,9 +40,6 @@ monster = {
     x_velocity: 0, //speed the avatar
     y_velocity: 0
 };
-
-var monsterImage = new Image();
-monsterImage.src = "images/monster.png";
 
 controller = {
     left: false,
@@ -76,6 +68,12 @@ controller = {
 /********************************************************
  Drawings
  ********************************************************/
+function ImageDrawer (x, y, path){
+    img = new Image();
+    img.src = path;
+    context.drawImage(img, x, y);
+}
+
 function drawLives() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
@@ -119,9 +117,9 @@ function drawPlateform2() {
 }
 
 function drawImages() {
-    context.drawImage(monsterImage, monster.x, monster.y)
-    context.drawImage(sunImage, sun.x, sun.y);
-    context.drawImage(starImage, star.x, star.y);
+    starIMG = new ImageDrawer(star.x, star.y, "images/starvf.png");
+    sunIMG = new ImageDrawer(sun.x, sun.y, "images/sunvf.png");
+    monsterIMG = new ImageDrawer(monster.x, monster.y, "images/monster.png");
 }
 
 function drawLives() {

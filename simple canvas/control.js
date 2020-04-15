@@ -80,25 +80,19 @@ function drawLives() {
     ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
-function drawLine() {
-    context.strokeStyle = colorOne;
-    context.lineWidth = 4;
-    context.beginPath();
-    context.moveTo(0, 400);
-    context.lineTo(220, 400);
-    context.stroke();
-}
-
 function DrawLines (){
+    base1 = new LineDrawer(blackMode, 0, 220, 400 );
+    base2 = new LineDrawer(blackMode, 300, 500, 400 );
     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
     plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
+    plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
 }
 
 function LineDrawer (onMode, startX, endX, y){
     //choosing the color
     if (onMode){
-        context.strokeStyle = "#202830" ;
-    } else context.strokeStyle = "#A9A9A9";
+        context.strokeStyle = colorOne ;
+    } else context.strokeStyle = colorTwo;
     //actually drawing
     context.lineWidth = 4;
     context.beginPath();
@@ -106,7 +100,7 @@ function LineDrawer (onMode, startX, endX, y){
     context.lineTo(endX, y);
     context.stroke();
     // managing collisions
-    if (onMode && monster.y > y - 32 && monster.x > startX - 32 && monster.x < endX) {
+    if (onMode && monster.y > y - 32 && monster.y < y+10 && monster.x > startX - 32 && monster.x < endX) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = y - 32;
@@ -116,34 +110,7 @@ function LineDrawer (onMode, startX, endX, y){
 
 }
 
-function drawLine2() {
-    context.strokeStyle = colorOne;
-    context.lineWidth = 4;
-    context.beginPath();
-    context.moveTo(300, 400);
-    context.lineTo(500, 400);
-    context.stroke();
-}
 
-
-function drawPlateform1() {
-    context.strokeStyle = colorOne;
-    context.lineWidth = 4;
-    context.beginPath();
-    context.moveTo(250, 350);
-    context.lineTo(330, 350);
-    context.stroke();
-}
-
-
-function drawPlateform2() {
-    context.strokeStyle = colorTwo;
-    context.lineWidth = 4;
-    context.beginPath();
-    context.moveTo(50, 330);
-    context.lineTo(130, 330);
-    context.stroke();
-}
 
 function drawImages() {
     starIMG = new ImageDrawer(star.x, star.y, "images/starvf.png");
@@ -186,37 +153,10 @@ function draw() {
     //reducing the x and y velocity very gradually
     // it gives you the effect that you are gradually coming to a stop
     monster.x_velocity *= 0.9;// friction
-    monster.y_velocity *= 0.9;// friction
+    monster.y_velocity *= 0.9; // friction
 
-    // if hero is falling below floor line
-    //180 = bottom of the screen - 16 la ligne, 32 le haut du hero
-    if (blackMode && monster.y > 500 - 100 - 32 && monster.x < 220) {
-        //set jumping to false so we can jump again
-        monster.jumping = false;
-        monster.y = 500 - 100 - 32;
-        monster.y_velocity = 0;
-    }
-    //Second part of the main platform
-    if (blackMode && monster.y > 500 - 100 - 32 && monster.x > 300) {
-        //set jumping to false so we can jump again
-        monster.jumping = false;
-        monster.y = 500 - 100 - 32;
-        monster.y_velocity = 0;
-    }
-    //Platform1 restrictions
-    if (blackMode && monster.y > 500 - 150 - 32 && monster.y < 500 - 140 - 32 && monster.x > 250 - 32 && monster.x < 330) {
-        //set jumping to false so we can jump again
-        monster.jumping = false;
-        monster.y = 500 - 150 - 32;
-        monster.y_velocity = 0;
-    }
-    //Platform2 restrictions
-    if (whiteMode && monster.y > 500 - 170 - 32 && monster.y < 500 - 160 - 32 && monster.x > 50 -32 && monster.x < 130) {
-        //set jumping to false so we can jump again
-        monster.jumping = false;
-        monster.y = 500 - 170 - 32;
-        monster.y_velocity = 0;
-    }
+
+
     // if hero is going off the left of the screen
     if (monster.x < 0) {
         monster.x = 0;
@@ -227,10 +167,6 @@ function draw() {
 
     context.fillStyle = backgroundColor;
     context.fillRect(0, 0, 500, 500);// x, y, width, height
-    drawLine();
-    drawLine2();
-    drawPlateform1();
-    drawPlateform2();
     drawImages();
     drawScore();
     drawLives();
@@ -238,9 +174,9 @@ function draw() {
 
 
 
-    if (monster.y > 430) {
+    if (monster.y > 470) {
         lives--;
-        monster.x = 250;
+        monster.x = 50;
         monster.y = 0;
     } else if (!lives) {
         alert("GAME OVER");
@@ -250,7 +186,7 @@ function draw() {
     if (monster.x <= (star.x + 50) && star.x <= (monster.x + 32)
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
         lives--;
-        monster.x = 250;
+        monster.x = 50;
         monster.y = 0;
     } else if (!lives) {
         alert("GAME OVER");
@@ -271,8 +207,8 @@ function changeColor(down) {
             blackMode = true;
             whiteMode = false;
         } else {
-            colorOne = "#A9A9A9";
-            colorTwo =	"#ffffff"
+            colorTwo = "#A9A9A9";
+            colorOne =	"#ffffff"
             backgroundColor = "#202830";
             blackMode = false;
             whiteMode = true;

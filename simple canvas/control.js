@@ -5,7 +5,10 @@ var context, controller, monster;
 var score = 0;
 var lives = 3;
 var colorOne = "#202830";
+var colorTwo = "#A9A9A9";
 var backgroundColor = "#ffffff";
+var blackMode = true;
+var whiteMode = false;
 
 
 /********************************************************
@@ -107,7 +110,7 @@ function drawPlateform1() {
 }
 
 function drawPlateform2() {
-    context.strokeStyle = colorOne;
+    context.strokeStyle = colorTwo;
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(50, 330);
@@ -160,28 +163,28 @@ function draw() {
 
     // if hero is falling below floor line
     //180 = bottom of the screen - 16 la ligne, 32 le haut du hero
-    if (monster.y > 500 - 100 - 32 && monster.x < 220) {
+    if (blackMode && monster.y > 500 - 100 - 32 && monster.x < 220) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 100 - 32;
         monster.y_velocity = 0;
     }
     //Second part of the main platform
-    if (monster.y > 500 - 100 - 32 && monster.x > 300) {
+    if (blackMode && monster.y > 500 - 100 - 32 && monster.x > 300) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 100 - 32;
         monster.y_velocity = 0;
     }
     //Platform1 restrictions
-    if (monster.y > 500 - 150 - 32 && monster.y < 500 - 140 - 32 && monster.x > 250 - 32 && monster.x < 330) {
+    if (blackMode && monster.y > 500 - 150 - 32 && monster.y < 500 - 140 - 32 && monster.x > 250 - 32 && monster.x < 330) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 150 - 32;
         monster.y_velocity = 0;
     }
     //Platform2 restrictions
-    if (monster.y > 500 - 170 - 32 && monster.y < 500 - 160 - 32 && monster.x > 50 -32 && monster.x < 130) {
+    if (whiteMode && monster.y > 500 - 170 - 32 && monster.y < 500 - 160 - 32 && monster.x > 50 -32 && monster.x < 130) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 170 - 32;
@@ -233,22 +236,18 @@ function changeColor(down) {
     if(down) {
         if (colorOne === "#ffffff") {
             colorOne = "#202830";
+            colorTwo = "#A9A9A9";
             backgroundColor = "#ffffff";
+            blackMode = true;
+            whiteMode = false;
         } else {
-            colorOne = "#ffffff";
+            colorOne = "#A9A9A9";
+            colorTwo =	"#ffffff"
             backgroundColor = "#202830";
+            blackMode = false;
+            whiteMode = true;
         }
     }
-   /*
-    if (colorOne.localeCompare(black)) {
-        colorOne = "#ffffff";
-        backgroundColor = "#202830";
-    }
-    else{
-        colorOne = black;
-        backgroundColor = white;
-    }
-    */
 }
 
 //adding the listeners to the specific objects

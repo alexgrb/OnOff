@@ -1,9 +1,12 @@
 /********************************************************
-Variables : defining variables, drawing context, controller, hero and the loop
+ Variables : defining variables, drawing context, controller, hero and the loop
  ********************************************************/
 var context, controller, monster;
 var score = 0;
 var lives = 3;
+var colorOne = "#202830";
+var backgroundColor = "#ffffff";
+
 
 /********************************************************
  Setup the canvas
@@ -59,8 +62,12 @@ controller = {
             case "ArrowRight":
                 controller.right = key_state;
                 break;
+            case "Space":
+                changeColor(key_state);
+                break;
         }
-    }
+    },
+
 };
 
 /********************************************************
@@ -73,37 +80,41 @@ function drawLives() {
 }
 
 function drawLine() {
-    context.strokeStyle = "#202830";
+    context.strokeStyle = colorOne;
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(0, 400);
     context.lineTo(220, 400);
     context.stroke();
 }
+
 function drawLine2() {
-    context.strokeStyle = "#202830";
+    context.strokeStyle = colorOne;
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(300, 400);
     context.lineTo(500, 400);
     context.stroke();
 }
+
 function drawPlateform1() {
-    context.strokeStyle = "#202830";
+    context.strokeStyle = colorOne;
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(250, 350);
     context.lineTo(330, 350);
     context.stroke();
 }
+
 function drawPlateform2() {
-    context.strokeStyle = "#202830";
+    context.strokeStyle = colorOne;
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(50, 330);
     context.lineTo(130, 330);
     context.stroke();
 }
+
 function drawImages() {
     context.drawImage(monsterImage, monster.x, monster.y)
     context.drawImage(sunImage, sun.x, sun.y);
@@ -163,14 +174,14 @@ function draw() {
         monster.y_velocity = 0;
     }
     //Platform1 restrictions
-    if (monster.y > 500 - 150 - 32 && monster.y < 500 - 140 - 32 && monster.x > 250 && monster.x < 330) {
+    if (monster.y > 500 - 150 - 32 && monster.y < 500 - 140 - 32 && monster.x > 250 - 32 && monster.x < 330) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 150 - 32;
         monster.y_velocity = 0;
     }
     //Platform2 restrictions
-    if (monster.y > 500 - 170 - 32 && monster.y < 500 - 160 - 32 && monster.x > 50 && monster.x < 130) {
+    if (monster.y > 500 - 170 - 32 && monster.y < 500 - 160 - 32 && monster.x > 50 -32 && monster.x < 130) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 170 - 32;
@@ -184,7 +195,7 @@ function draw() {
         monster.x = 500 - 32;
     }
 
-    context.fillStyle = "#ffffff";
+    context.fillStyle = backgroundColor;
     context.fillRect(0, 0, 500, 500);// x, y, width, height
     drawLine();
     drawLine2();
@@ -194,11 +205,11 @@ function draw() {
     drawScore();
     drawLives();
 
-    if (monster.y > 430){
+    if (monster.y > 430) {
         lives--;
         monster.x = 250;
         monster.y = 0;
-    }else if (!lives) {
+    } else if (!lives) {
         alert("GAME OVER");
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
@@ -208,7 +219,7 @@ function draw() {
         lives--;
         monster.x = 250;
         monster.y = 0;
-    }else if (!lives) {
+    } else if (!lives) {
         alert("GAME OVER");
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
@@ -216,6 +227,30 @@ function draw() {
     requestAnimationFrame(draw);
 
 };
+
+function changeColor(down) {
+
+    if(down) {
+        if (colorOne === "#ffffff") {
+            colorOne = "#202830";
+            backgroundColor = "#ffffff";
+        } else {
+            colorOne = "#ffffff";
+            backgroundColor = "#202830";
+        }
+    }
+   /*
+    if (colorOne.localeCompare(black)) {
+        colorOne = "#ffffff";
+        backgroundColor = "#202830";
+    }
+    else{
+        colorOne = black;
+        backgroundColor = white;
+    }
+    */
+}
+
 //adding the listeners to the specific objects
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);

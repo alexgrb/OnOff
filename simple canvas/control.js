@@ -77,6 +77,14 @@ function drawLine() {
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo(0, 400);
+    context.lineTo(220, 400);
+    context.stroke();
+}
+function drawLine2() {
+    context.strokeStyle = "#202830";
+    context.lineWidth = 4;
+    context.beginPath();
+    context.moveTo(300, 400);
     context.lineTo(500, 400);
     context.stroke();
 }
@@ -141,7 +149,14 @@ function draw() {
 
     // if hero is falling below floor line
     //180 = bottom of the screen - 16 la ligne, 32 le haut du hero
-    if (monster.y > 500 - 100 - 32) {
+    if (monster.y > 500 - 100 - 32 && monster.x < 220) {
+        //set jumping to false so we can jump again
+        monster.jumping = false;
+        monster.y = 500 - 100 - 32;
+        monster.y_velocity = 0;
+    }
+    //Second part of the main platform
+    if (monster.y > 500 - 100 - 32 && monster.x > 300) {
         //set jumping to false so we can jump again
         monster.jumping = false;
         monster.y = 500 - 100 - 32;
@@ -172,18 +187,28 @@ function draw() {
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, 500, 500);// x, y, width, height
     drawLine();
+    drawLine2();
     drawPlateform1();
     drawPlateform2();
     drawImages();
     drawScore();
     drawLives();
 
+    if (monster.y > 430){
+        lives--;
+        monster.x = 250;
+        monster.y = 0;
+    }else if (!lives) {
+        alert("GAME OVER");
+        document.location.reload();
+        clearInterval(interval); // Needed for Chrome to end game
+    }
     if (monster.x <= (star.x + 50) && star.x <= (monster.x + 32)
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
         lives--;
         monster.x = 250;
         monster.y = 0;
-    } else if (!lives) {
+    }else if (!lives) {
         alert("GAME OVER");
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game

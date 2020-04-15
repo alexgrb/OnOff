@@ -22,11 +22,11 @@ context.canvas.width = 500;
 /********************************************************
  Elements appearing on the screen
  ********************************************************/
-var sun = {
+sun = {
     x: 34,
     y: 122
 };
-var star = {
+star = {
     x: 300,
     y: 300
 };
@@ -89,6 +89,33 @@ function drawLine() {
     context.stroke();
 }
 
+function DrawLines (){
+    plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
+    plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
+}
+
+function LineDrawer (onMode, startX, endX, y){
+    //choosing the color
+    if (onMode){
+        context.strokeStyle = "#202830" ;
+    } else context.strokeStyle = "#A9A9A9";
+    //actually drawing
+    context.lineWidth = 4;
+    context.beginPath();
+    context.moveTo(startX, y);
+    context.lineTo(endX, y);
+    context.stroke();
+    // managing collisions
+    if (onMode && monster.y > y - 32 && monster.x > startX - 32 && monster.x < endX) {
+        //set jumping to false so we can jump again
+        monster.jumping = false;
+        monster.y = y - 32;
+        monster.y_velocity = 0;
+    }
+
+
+}
+
 function drawLine2() {
     context.strokeStyle = colorOne;
     context.lineWidth = 4;
@@ -98,6 +125,7 @@ function drawLine2() {
     context.stroke();
 }
 
+
 function drawPlateform1() {
     context.strokeStyle = colorOne;
     context.lineWidth = 4;
@@ -106,6 +134,7 @@ function drawPlateform1() {
     context.lineTo(330, 350);
     context.stroke();
 }
+
 
 function drawPlateform2() {
     context.strokeStyle = colorTwo;
@@ -205,6 +234,9 @@ function draw() {
     drawImages();
     drawScore();
     drawLives();
+    DrawLines ();
+
+
 
     if (monster.y > 430) {
         lives--;

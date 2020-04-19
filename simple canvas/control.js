@@ -10,6 +10,7 @@ var backgroundColor = "#ffffff";
 var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
+var game = JSON.parse('{ "platforms": [{ "onMode":"blackMode", "startX":0, "endX":220, "y":400 },{ "onMode":"blackMode", "startX":300, "endX":500, "y":400 }]}');
 
 
 /********************************************************
@@ -17,8 +18,8 @@ var sound = document.getElementById('sound');
  ********************************************************/
 let canvas = document.getElementById("game");
 context = document.querySelector("canvas").getContext("2d");
-context.canvas.height = document.body.clientHeight - 100;
-context.canvas.width = document.body.clientWidth - 100;
+context.canvas.height = 900;
+context.canvas.width = 1500;
 
 /********************************************************
  Elements appearing on the screen
@@ -82,8 +83,11 @@ function drawLives() {
 }
 
 function DrawLines (){
-    base1 = new LineDrawer(blackMode, 0, 220, 400 );
-    base2 = new LineDrawer(blackMode, 300, 500, 400 );
+    for (let index = game.platforms.length - 1; index > -1; -- index) {
+        let pf = game.platforms[index];
+        base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
+    };
+
     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
     plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
     plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
@@ -111,6 +115,16 @@ function LineDrawer (onMode, startX, endX, y){
 
 }
 
+function loadPlatforms (url){
+    var request, readyStateChange;
+    request = new XMLHttpRequest();
+    readyStateChange = function (event) {
+        game = JSON.parse(this.responseText);
+    };
+    request.addEventListener("readystatechange", readyStateChange);
+    request.open("GET", url);
+    request.send(null);
+}
 
 
 function drawImages() {
@@ -132,8 +146,11 @@ function drawScore() {
 
 }
 
+
+
 function draw() {
     sound.play();
+    //loadPlatforms("levels/level0.json");
     if (controller.up && monster.jumping == false) {
         monster.y_velocity -= 20;
         monster.jumping = true;
@@ -156,8 +173,6 @@ function draw() {
     // it gives you the effect that you are gradually coming to a stop
     monster.x_velocity *= 0.9;// friction
     monster.y_velocity *= 0.9; // friction
-
-
 
     // if hero is going off the left of the screen
     if (monster.x < 0) {

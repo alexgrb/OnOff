@@ -1,0 +1,28 @@
+{
+  "platforms": [
+    {
+      "onMode": "blackMode",
+      "startX": 0,
+      "endX": 220,
+      "y": 400
+    },
+    {
+      "onMode": "whiteMode",
+      "startX": 300,
+      "endX": 500,
+      "y": 400
+    }
+  ],
+  "star": [
+    {
+      "x": 300,
+      "y": 300,
+      "width": 16,
+      "height": 16,
+      "destination_zone": "01",
+      "destination_x": 0,
+      "destination_y": -1
+    }
+  ],
+  "id": "00"
+}

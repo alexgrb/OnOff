@@ -8,18 +8,34 @@
 html, body {
     height:100%;
     width:100%;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-
 body {
-    align-content:space-around;
-    /*    background-color:#202830;*/
-    background-color:#ffffff;
-    color:black;
-    display:grid;
-    justify-content:center;
+    background: #ffffff;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 2em;
+    text-align: center;
 }
 
-canvas {
-    background-color: #ffffff;
-   /* border: 1px  black; */
+#main{
+    display: none;
+}
+#newGame{
+    text-align: center;
+    vertical-align: middle;
+    color: #A9A9A9;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Courier New";
+    width: 5em;
+    margin: 5px auto;
+
+}
+#theHead{
+    margin: auto;
+    color: #202830;
+    font-size: 2em;
+    font-family: "Courier New";
 }

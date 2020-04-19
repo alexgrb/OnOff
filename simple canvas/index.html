@@ -1,51 +1,19 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
     <meta name="viewport" content="width=device-width">
     <title>OnOff Game</title>
     <link href="control.css" rel="stylesheet" type="text/css">
-    <style>
-        body {
-            background: #202028;
-            color: #fff;
-            font-family: sans-serif;
-            font-size: 2em;
-            text-align: center;
-        }
-
-        #main{
-            display: none;
-        }
-        #newGame{
-            text-align: center;
-            vertical-align: middle;
-            border: 2px solid goldenrod;
-            border-radius: 7px;
-            background-color: gold;
-            color: orangeRed;
-            font-size: 32px;
-            font-weight: bold;
-            font-family: "Courier New";
-            width: 5em;
-            margin: 5px auto;
-
-        }
-        #theHead{
-            margin: auto;
-            color: orange;
-            font-size: 2em;
-            font-family: "Courier New";
-        }
-    </style>
 </head>
 
 <body>
+<audio id="sound">
+    <source src="sound/backgroundMusic.mp3" type="audio/mpeg">
+</audio>
 <div id="theHead">Welcome to OnOff bro</div>
-<div id="newGame" onclick="runGame()" onmouseover="this.style.backgroundColor = 'goldenrod'"
-     onmouseout="this.style.backgroundColor = 'gold'">Play
+<div id="newGame" onclick="runGame()"
+     onmouseover="this.style.color = '#202830'"
+     onmouseout="this.style.color = '#A9A9A9'">Play
 </div>
 <div id="main">
     <canvas id="game" style="border: 1px solid black;"></canvas>
@@ -54,6 +22,7 @@
 
 <script src="control.js" type="text/javascript"></script>
 <script>
+
     var runGame = function () {
         document.getElementById("newGame").style.display = "none";
         document.getElementById("theHead").style.display = "none";

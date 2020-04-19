@@ -9,6 +9,7 @@ var colorTwo = "#A9A9A9";
 var backgroundColor = "#ffffff";
 var blackMode = true;
 var whiteMode = false;
+var sound = document.getElementById('sound');
 
 
 /********************************************************
@@ -16,8 +17,8 @@ var whiteMode = false;
  ********************************************************/
 let canvas = document.getElementById("game");
 context = document.querySelector("canvas").getContext("2d");
-context.canvas.height = 500;
-context.canvas.width = 500;
+context.canvas.height = document.body.clientHeight - 100;
+context.canvas.width = document.body.clientWidth - 100;
 
 /********************************************************
  Elements appearing on the screen
@@ -132,6 +133,7 @@ function drawScore() {
 }
 
 function draw() {
+    sound.play();
     if (controller.up && monster.jumping == false) {
         monster.y_velocity -= 20;
         monster.jumping = true;
@@ -190,6 +192,8 @@ function draw() {
         monster.y = 0;
     } else if (!lives) {
         alert("GAME OVER");
+        sound.pause();
+        sound.currentTime=0;
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
     }

@@ -10,7 +10,10 @@ var backgroundColor = "#ffffff";
 var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
-var game = JSON.parse('{ "platforms": [{ "onMode":"blackMode", "startX":0, "endX":220, "y":400 },{ "onMode":"blackMode", "startX":300, "endX":500, "y":400 }]}');
+var levels = JSON.parse('{ "levels":[{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":220, "y":400 },{ "onMode":"blackMode", "startX":300, "endX":500, "y":400 }]}}, {"level": { "platforms": [{ "onMode":"blackMode", "startX":50, "endX":300, "y":450 },{ "onMode":"blackMode", "startX":320, "endX":450, "y":450 }]}},{"level": {"platforms": [{"onMode": "whiteMode","startX": 0,"endX": 70,"y": 300},{"onMode": "blackMode","startX": 320,"endX": 450,"y": 450}]}}]}');
+var level2 = JSON.parse('{ "platforms": [{ "onMode":"blackMode", "startX":50, "endX":300, "y":450 },{ "onMode":"blackMode", "startX":320, "endX":450, "y":450 }]}');
+var i = 0;
+var level = levels.levels[i].level;
 var myObj;
 
 /********************************************************
@@ -83,23 +86,11 @@ function drawLives() {
 }
 
 function DrawLines (){
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-
-        if (this.readyState == 4 && this.status == 200) {
-            game = JSON.parse(this.responseText);
-            for (let index = game.platforms.length - 1; index > -1; -- index) {
-                let pf = game.platforms[index];
-                base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
-            }
-        }
-        else{
-            console.log("state : "+this.readyState);
-        }
-    };
-    xmlhttp.open("GET", "level0.json", true);
-    xmlhttp.send();
-
+    console.log("levels : "+level.platforms[1].onMode);
+    for (let index = level.platforms.length - 1; index > -1; -- index) {
+        let pf = level.platforms[index];
+        base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
+    }
     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
     plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
     plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
@@ -124,10 +115,6 @@ function LineDrawer (onMode, startX, endX, y){
         monster.y_velocity = 0;
     }
 
-
-}
-
-function loadPlatforms (url){
 
 }
 
@@ -207,7 +194,8 @@ function draw() {
     }
     if (monster.x <= (star.x + 50) && star.x <= (monster.x + 32)
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
-        lives--;
+        i++;
+        level = levels.levels[i].level;
         monster.x = 50;
         monster.y = 0;
     } else if (!lives) {

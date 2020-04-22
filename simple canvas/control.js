@@ -1,7 +1,7 @@
 /********************************************************
  Variables : defining variables, drawing context, controller, hero and the loop
  ********************************************************/
-var context, controller, monster;
+let context, controller, monster;
 var score = 0;
 var lives = 3;
 var colorOne = "#202830";
@@ -11,7 +11,7 @@ var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
 var game = JSON.parse('{ "platforms": [{ "onMode":"blackMode", "startX":0, "endX":220, "y":400 },{ "onMode":"blackMode", "startX":300, "endX":500, "y":400 }]}');
-
+var myObj;
 
 /********************************************************
  Setup the canvas
@@ -83,10 +83,22 @@ function drawLives() {
 }
 
 function DrawLines (){
-    for (let index = game.platforms.length - 1; index > -1; -- index) {
-        let pf = game.platforms[index];
-        base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+
+        if (this.readyState == 4 && this.status == 200) {
+            game = JSON.parse(this.responseText);
+            for (let index = game.platforms.length - 1; index > -1; -- index) {
+                let pf = game.platforms[index];
+                base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
+            }
+        }
+        else{
+            console.log("state : "+this.readyState);
+        }
     };
+    xmlhttp.open("GET", "level0.json", true);
+    xmlhttp.send();
 
     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
     plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
@@ -116,14 +128,7 @@ function LineDrawer (onMode, startX, endX, y){
 }
 
 function loadPlatforms (url){
-    var request, readyStateChange;
-    request = new XMLHttpRequest();
-    readyStateChange = function (event) {
-        game = JSON.parse(this.responseText);
-    };
-    request.addEventListener("readystatechange", readyStateChange);
-    request.open("GET", url);
-    request.send(null);
+
 }
 
 

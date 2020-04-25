@@ -1,30 +1,65 @@
 {
-  "platforms": [
+  "levels": [
     {
-      "onMode": "blackMode",
-      "startX": 0,
-      "endX": 220,
-      "y": 400
+      "level": {
+        "platforms": [
+          {
+            "onMode": true,
+            "offMode" : false,
+            "startX": 0,
+            "endX": 700,
+            "y": 700
+          },
+          {
+            "onMode": "blackMode",
+            "startX": 800,
+            "endX": 1500,
+            "y": 700
+          }
+        ],
+        "star":{
+          "x" : 1450,
+          "y" : 650
+        }
+      }
+    },
+
+
+    {
+      "level": {
+        "platforms": [
+          {
+            "onMode": "blackMode",
+            "startX": 50,
+            "endX": 300,
+            "y": 450
+          },
+          {
+            "onMode": "blackMode",
+            "startX": 320,
+            "endX": 450,
+            "y": 450
+          }
+        ]
+      }
     },
     {
-      "onMode": "whiteMode",
-      "startX": 300,
-      "endX": 500,
-      "y": 400
+      "level": {
+        "platforms": [
+          {
+            "onMode": "whiteMode",
+            "startX": 0,
+            "endX": 70,
+            "y": 300
+          },
+          {
+            "onMode": "blackMode",
+            "startX": 320,
+            "endX": 450,
+            "y": 450
+          }
+        ]
+      }
     }
-  ],
-  "star": [
-    {
-      "x": 300,
-      "y": 300,
-      "width": 16,
-      "height": 16,
-      "destination_zone": "01",
-      "destination_x": 0,
-      "destination_y": -1
-    }
-  ],
-  "id":0,
-  "end": 220,
-  "y": 400
+  ]
 }

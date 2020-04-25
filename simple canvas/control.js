@@ -10,12 +10,17 @@ var backgroundColor = "#ffffff";
 var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
-var levels = JSON.parse('{ "levels":[{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":220, "y":400 },{ "onMode":"blackMode", "startX":300, "endX":500, "y":400 }]}}, {"level": { "platforms": [{ "onMode":"blackMode", "startX":50, "endX":300, "y":450 },{ "onMode":"blackMode", "startX":320, "endX":450, "y":450 }]}},{"level": {"platforms": [{"onMode": "whiteMode","startX": 0,"endX": 70,"y": 300},{"onMode": "blackMode","startX": 320,"endX": 450,"y": 450}]}}]}');
-var level2 = JSON.parse('{ "platforms": [{ "onMode":"blackMode", "startX":50, "endX":300, "y":450 },{ "onMode":"blackMode", "startX":320, "endX":450, "y":450 }]}');
+var levels = JSON.parse('{ "levels":' +
+    '[' +
+    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":750, "y":700 }, { "onMode":"blackMode", "startX":800, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650} }}, ' +
+    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":550, "y":700 }, { "onMode":"whiteMode", "startX":600, "endX":900, "y":650 },{ "onMode":"blackMode", "startX":950, "endX":1500, "y":700 }], "star":{"x" : 1420, "y" : 600} }}, ' +
+    '{"level": { "platforms": [{ "onMode":"blackMode", "startX":0, "endX":1500, "y":100 },{ "onMode":"blackMode", "startX":0, "endX":1500, "y":300 }, { "onMode":"blackMode", "startX":0, "endX":1500, "y":500 }, { "onMode":"blackMode", "startX":0, "endX":1500, "y":700 }] , "star":{"x" : 1450, "y" : 850} }},' +
+    '{"level": {"platforms": [{"onMode": "whiteMode","startX": 0,"endX": 70,"y": 300},{"onMode": "blackMode","startX": 320,"endX": 450,"y": 450}]}}' +
+    ']}');
 var i = 0;
 var level = levels.levels[i].level;
-var myObj;
-
+var myObj
+var star = level.star;
 /********************************************************
  Setup the canvas
  ********************************************************/
@@ -31,10 +36,7 @@ sun = {
     x: 34,
     y: 122
 };
-star = {
-    x: 300,
-    y: 300
-};
+
 
 monster = {
     height: 32,
@@ -89,11 +91,17 @@ function DrawLines (){
     console.log("levels : "+level.platforms[1].onMode);
     for (let index = level.platforms.length - 1; index > -1; -- index) {
         let pf = level.platforms[index];
-        base1 = new LineDrawer(pf.onMode, pf.startX, pf.endX, pf.y);
+        if(pf.onMode == "blackMode") {
+            base1 = new LineDrawer(blackMode, pf.startX, pf.endX, pf.y);
+        }
+        else{
+            base1 = new LineDrawer(whiteMode, pf.startX, pf.endX, pf.y);
+        }
     }
-    plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
-    plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
-    plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
+
+     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
+    // plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
+    // plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
 }
 
 function LineDrawer (onMode, startX, endX, y){
@@ -117,9 +125,8 @@ function LineDrawer (onMode, startX, endX, y){
 
 
 }
-
-
 function drawImages() {
+
     starIMG = new ImageDrawer(star.x, star.y, "images/starvf.png");
     sunIMG = new ImageDrawer(sun.x, sun.y, "images/sunvf.png");
     monsterIMG = new ImageDrawer(monster.x, monster.y, "images/monster.png");
@@ -142,17 +149,21 @@ function drawScore() {
 
 function draw() {
     sound.play();
+
+    /********************************************************
+                        Physics
+     ********************************************************/
     //loadPlatforms("levels/level0.json");
     if (controller.up && monster.jumping == false) {
-        monster.y_velocity -= 20;
+        monster.y_velocity -= 40;
         monster.jumping = true;
     }
     //easing motion when you add and build the velocity frame by frame
     if (controller.left) {
-        monster.x_velocity -= 0.5;
+        monster.x_velocity -= 1;
     }
     if (controller.right) {
-        monster.x_velocity += 0.5;
+        monster.x_velocity += 1;
     }
 
     //adding 1.5 on any frame of animation (basically until it hits the blue line)
@@ -166,24 +177,25 @@ function draw() {
     monster.x_velocity *= 0.9;// friction
     monster.y_velocity *= 0.9; // friction
 
+    /********************************************************
+                Constraints on the canvas
+     ********************************************************/
     // if hero is going off the left of the screen
     if (monster.x < 0) {
         monster.x = 0;
-    } else if (monster.x > 500 - 32) {// if hero goes past right boundary
+    } else if (monster.x > 1500 - 32) {// if hero goes past right boundary
         //return;
-        monster.x = 500 - 32;
+        monster.x = 1500 - 32;
     }
 
     context.fillStyle = backgroundColor;
-    context.fillRect(0, 0, 500, 500);// x, y, width, height
+    context.fillRect(0, 0, 1500, 900);// x, y, width, height
     drawImages();
     drawScore();
     drawLives();
     DrawLines ();
 
-
-
-    if (monster.y > 470) {
+    if (monster.y > 870) {
         lives--;
         monster.x = 50;
         monster.y = 0;
@@ -198,6 +210,7 @@ function draw() {
         level = levels.levels[i].level;
         monster.x = 50;
         monster.y = 0;
+        star = level.star;
     } else if (!lives) {
         alert("GAME OVER");
         sound.pause();

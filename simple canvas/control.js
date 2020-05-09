@@ -22,7 +22,8 @@ var level = levels.levels[i].level;
 var star = level.star;
 var scoringStar = level.scoringStar;
 
-
+//Is local storage available?
+const isStorage = 'undefined' !== typeof localStorage;
 /********************************************************
  Setup the canvas
  ********************************************************/
@@ -72,6 +73,7 @@ controller = {
     },
 
 };
+
 
 /********************************************************
  Drawings
@@ -199,10 +201,6 @@ function draw() {
         lives--;
         monster.x = 50;
         monster.y = 0;
-    } else if (!lives) {
-        alert("GAME OVER");
-        document.location.reload();
-        clearInterval(interval); // Needed for Chrome to end game
     }
 
     //managing star
@@ -214,12 +212,18 @@ function draw() {
         monster.y = 0;
         star = level.star;
         scoringStar = level.scoringStar;
-    } else if (!lives) {
-        alert("GAME OVER");
+    }
+    if (lives<1) {
+        var name = prompt("Please enter your name", "lastPlayer");
+
         sound.pause();
         sound.currentTime=0;
-        document.location.reload();
-        clearInterval(interval); // Needed for Chrome to end game
+        isStorage && localStorage.setItem(name, score);
+
+        window.location.replace("gameover.html");
+        clearInterval(interval);
+        //document.location.reload();
+
     }
 
 

@@ -12,7 +12,7 @@ var whiteMode = false;
 var sound = document.getElementById('sound');
 var levels = JSON.parse('{ "levels":' +
     '[' +
-    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":750, "y":700 }, { "onMode":"blackMode", "startX":800, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650} }}, ' +
+    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":750, "y":700 }, { "onMode":"blackMode", "startX":800, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650}, "scoringStar":{"x" : 1200, "y" : 650}}}, ' +
     '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":550, "y":700 }, { "onMode":"whiteMode", "startX":600, "endX":900, "y":650 },{ "onMode":"blackMode", "startX":950, "endX":1500, "y":700 }], "star":{"x" : 1420, "y" : 600} }}, ' +
     '{"level": { "platforms": [{ "onMode":"blackMode", "startX":0, "endX":1500, "y":100 },{ "onMode":"blackMode", "startX":0, "endX":1500, "y":300 }, { "onMode":"blackMode", "startX":0, "endX":1500, "y":500 }, { "onMode":"blackMode", "startX":0, "endX":1500, "y":700 }] , "star":{"x" : 1450, "y" : 850} }},' +
     '{"level": {"platforms": [{"onMode": "whiteMode","startX": 0,"endX": 70,"y": 300},{"onMode": "blackMode","startX": 320,"endX": 450,"y": 450}]}}' +
@@ -21,6 +21,7 @@ var i = 0;
 var level = levels.levels[i].level;
 var myObj
 var star = level.star;
+
 /********************************************************
  Setup the canvas
  ********************************************************/
@@ -35,6 +36,13 @@ context.canvas.width = 1500;
 sun = {
     x: 34,
     y: 122
+};
+
+scoringStar = {
+    x: 1050,
+    y: 600,
+    //if status is 1, draw it
+    status:1
 };
 
 
@@ -81,12 +89,6 @@ function ImageDrawer (x, y, path){
     context.drawImage(img, x, y);
 }
 
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
-}
-
 function DrawLines (){
     console.log("levels : "+level.platforms[1].onMode);
     for (let index = level.platforms.length - 1; index > -1; -- index) {
@@ -98,10 +100,6 @@ function DrawLines (){
             base1 = new LineDrawer(whiteMode, pf.startX, pf.endX, pf.y);
         }
     }
-
-     plateform1 = new LineDrawer(blackMode, 123, 178, 355 );
-    // plateform2 = new LineDrawer(whiteMode, 234, 433, 200 );
-    // plateform3 = new LineDrawer(whiteMode, 50, 130, 330 );
 }
 
 function LineDrawer (onMode, startX, endX, y){
@@ -123,25 +121,26 @@ function LineDrawer (onMode, startX, endX, y){
         monster.y_velocity = 0;
     }
 
-
 }
 function drawImages() {
-
-    starIMG = new ImageDrawer(star.x, star.y, "images/starvf.png");
+    starIMG = new ImageDrawer(star.x, star.y, "images/star_d.png");
     sunIMG = new ImageDrawer(sun.x, sun.y, "images/sunvf.png");
-    monsterIMG = new ImageDrawer(monster.x, monster.y, "images/monster.png");
+    monsterIMG = new ImageDrawer(monster.x, monster.y, "images/ghost_b.png");
+    if (scoringStar.status ==1) {
+        scoringStarIMG = new ImageDrawer(scoringStar.x, scoringStar.y, "images/starvf.png");
+    }
 }
 
 function drawLives() {
-    context.font = "16px Arial";
-    context.fillStyle = "#0095DD";
-    context.fillText("Lives: " + lives, context.canvas.width - 65, 20);
+    context.font = "30px Courier New";
+    context.fillStyle = colorTwo;
+    context.fillText("Lives: " + lives, context.canvas.width - 149, 40);
 }
 
 function drawScore() {
-    context.font = "16px Arial";
-    context.fillStyle = "#0095DD";
-    context.fillText("Score: " + score, 8, 20);
+    context.font = "30px Courier New";
+    context.fillStyle = colorTwo;
+    context.fillText("Score: " + score, 8, 40);
 
 }
 
@@ -195,6 +194,7 @@ function draw() {
     drawLives();
     DrawLines ();
 
+    //managing lives
     if (monster.y > 870) {
         lives--;
         monster.x = 50;
@@ -204,6 +204,8 @@ function draw() {
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
     }
+
+    //managing star
     if (monster.x <= (star.x + 50) && star.x <= (monster.x + 32)
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
         i++;
@@ -218,6 +220,15 @@ function draw() {
         document.location.reload();
         clearInterval(interval); // Needed for Chrome to end game
     }
+
+    //managing score
+    if (monster.x <= (scoringStar.x + 50) && scoringStar.x <= (monster.x + 32)
+        && monster.y <= (scoringStar.y + 50) && scoringStar.y <= (monster.y + 32)
+        && scoringStar.status == 1) {
+        score++;
+        scoringStar.status = 0;
+    }
+
     requestAnimationFrame(draw);
 
 };

@@ -16,8 +16,8 @@ var mainStarSound = document.getElementById('mainstarsound');
 var starSound = document.getElementById('starsound');
 var levels = JSON.parse('{ "levels":' +
     '[' +
-    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":650, "y":700 }, { "onMode":"blackMode", "startX": 900, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650}, "scoringStar": [{"x" : 750, "y" : 500, "status":1}] }}, ' +
-    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":550, "y":700 }, { "onMode":"whiteMode", "startX":620, "endX":870, "y":550 },{ "onMode":"blackMode", "startX":950, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650}, "scoringStar": [{"x" : 1050, "y" : 600, "status":1}, {"x" : 400, "y" : 350, "status":1}, {"x" : 730, "y" : 450, "status":1}] }}, ' +
+    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":650, "y":700 }, { "onMode":"blackMode", "startX": 900, "endX":1500, "y":700 }], "star":{"x" : 1400, "y" : 630}, "scoringStar": [{"x" : 750, "y" : 500, "status":1}] }}, ' +
+    '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":550, "y":700 }, { "onMode":"whiteMode", "startX":620, "endX":870, "y":550 },{ "onMode":"blackMode", "startX":950, "endX":1500, "y":700 }], "star":{"x" : 1400, "y" : 630}, "scoringStar": [{"x" : 1050, "y" : 600, "status":1}, {"x" : 400, "y" : 350, "status":1}, {"x" : 730, "y" : 450, "status":1}] }}, ' +
     '{"level": { "platforms": [{ "onMode":"blackMode", "startX":0, "endX":1500, "y":100 },{ "onMode":"whiteMode", "startX":0, "endX":1500, "y":300 }, { "onMode":"blackMode", "startX":0, "endX":1500, "y":500 }, { "onMode":"whiteMode", "startX":0, "endX":1500, "y":700 }] , "star":{"x" : 1450, "y" : 850}, "scoringStar": [{"x" : 200, "y" : 340, "status":1}, {"x" : 400, "y": 50, "status":1},  {"x" : 1230, "y": 700, "status":1}, {"x" : 730, "y" : 450, "status":1}] }},' +
     '{"level": {"platforms": [{ "onMode":"whiteMode", "startX":0, "endX":300, "y":520 }, { "onMode":"blackMode", "startX": 400, "endX":700, "y":700 },  { "onMode":"whiteMode", "startX": 800, "endX":1100, "y":520 }, { "onMode":"blackMode", "startX": 1200, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650}, "scoringStar": [{"x" : 100, "y" : 350, "status":1}, {"x" : 660, "y" : 500, "status":1}, {"x" : 1300, "y" : 300, "status":1}] }}, ' +
     '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":200, "y":800 }, { "onMode":"whiteMode", "startX": 260, "endX":360, "y":650 }, { "onMode":"blackMode", "startX": 400, "endX":500, "y":490 }, { "onMode":"whiteMode", "startX": 220, "endX":320, "y":350 }, { "onMode":"blackMode", "startX": 500, "endX":680, "y":200 }, { "onMode":"blackMode", "startX": 850, "endX":950, "y":370 }, { "onMode":"whiteMode", "startX": 850, "endX":950, "y":600 }, { "onMode":"whiteMode", "startX": 1100, "endX":1200, "y":250 } , { "onMode":"blackMode", "startX": 1300, "endX":1500, "y":150 }], "star":{"x" : 1450, "y" : 100}, "scoringStar": [{"x" : 100, "y" : 450, "status":1}, {"x" : 75, "y" : 550, "status":1}, {"x" : 550, "y" : 720, "status":1},  {"x" : 550, "y" : 50, "status":1},  {"x" : 1000, "y" : 320, "status":1}, {"x" : 880, "y" : 550, "status":1}] }} ' +
@@ -124,14 +124,19 @@ function LineDrawer (onMode, startX, endX, y){
 
 }
 function drawImages() {
-    starIMG = new ImageDrawer(star.x, star.y, "images/star_d.png");
+    starIMG = new ImageDrawer(star.x, star.y, "images/flag_v4.png");
     sunIMG = new ImageDrawer(sun.x, sun.y, "images/sunvf.png");
-    monsterIMG = new ImageDrawer(monster.x, monster.y, "images/ghost_b.png");
 
+    //ghost
+    if (blackMode){
+        monsterBlack = new ImageDrawer(monster.x, monster.y, "images/bghost.png");
+    } else monsterWhite = new ImageDrawer(monster.x, monster.y, "images/wghost_v2.png");
+
+    //scoring star
     for (let index = level.scoringStar.length - 1; index > -1; -- index) {
         let scoredStar = level.scoringStar[index];
         if (scoredStar.status == 1) {
-            jscoringStarIMG = new ImageDrawer(scoredStar.x, scoredStar.y, "images/starvf.png");
+            jscoringStarIMG = new ImageDrawer(scoredStar.x, scoredStar.y, "images/star_big.png");
             //managing score
             if (monster.x <= (scoredStar.x + 50) && scoredStar.x <= (monster.x + 32)
                 && monster.y <= (scoredStar.y + 50) && scoredStar.y <= (monster.y + 32)

@@ -37,40 +37,14 @@ if (isStorage) {
 
 function openScores(gameOver) {
 
-  /*  var swapp;
-    var n = localStorage.length-1;
-    var x=localStorage;
-    do {
-        swapp = false;
-        for (var i=0; i < n; i++)
-        {
-            if (x.getItem(x.key(i)) < x.getItem(x.key(i+1)))
-            {
-                var temp = x.getItem(x.key(i));
-                x.setItem(x.key(i), x.getItem(x.key(i+1)));
-                x.setItem(x.key(i+1),temp);
-                swapp = true;
-            }
-        }
-        n--;
-    } while (swapp);
-    return x;
-*/
     let htmlTemplate = '';
     for (let i = 0; i < localStorage.length; i++) {
         htmlTemplate += ` <tr class="scores__item">
             <td>${localStorage.key(i)}</td>
             <td>${localStorage.getItem(localStorage.key(i))}</td>
         </tr>`;
-       // htmlTemplate += `<li class="scores__item" style="color:red">${localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i))}</li>`;
     }
     scoresList.innerHTML = htmlTemplate;
-   /* document.ready(function () {
-        '#orderedScores'.DataTable({
-            "order": [[ 2, "desc" ]]
-        });
-    });*/
-
 }
 function sortTable() {
     var table, i, x, y;

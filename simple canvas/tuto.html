@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title style="color:#ffffff";>Tutorial</title>
+    <link href="control.css" rel="stylesheet" type="text/css">
+</head>
+<body id="tutoExplanation">
+
+<div id="theHead">Tutorial</div>
+<div>
+    <p>In this game you will be a ghost. You have 3 goals.</p>
+    <li>Get to the flag.</li>
+    <li>Take the most star you can by going through them.</li>
+    <li>Don't die by falling or jumping on grey out platforms.</li>
+<br>
+    <p>To reach your goals you can use the next commands :</p>
+    <li>Arrow pad to go Right, Left and also Jump</li>
+    <li>SPACE BAR to make a greyed out platform solid</li>
+<br>
+</div>
+<img src="images/tuto.png" alt="Items of the game.">
+<br>
+<button id="backMenu" onclick="backMenu()" type="button" class="btn btn-dark">Back to Main Menu</button>
+</body>
+<script>
+    var backMenu = function () {
+        window.location.replace("index.html");
+    }
+
+    function changeColor(down) {
+        if(down) {
+            console.log(document.body.style.background)
+            if (document.body.style.background === "rgb(255, 255, 255)") {
+                document.body.style.background = "#202830";
+            } else {
+                document.body.style.background = "#ffffff";
+                        }
+        }
+    }
+    let controller =
+    {
+        keyListener: function (event) {
+            let key_state = (event.type == "keydown") ? true : false;
+            switch (event.code) {
+              case "Space":
+                    changeColor(key_state);
+                    break;
+            }
+        }
+    };
+    //adding the listeners to the specific objects
+    window.addEventListener("keydown", controller.keyListener);
+    window.addEventListener("keyup", controller.keyListener);
+</script>
+</html>

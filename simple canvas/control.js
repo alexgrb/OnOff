@@ -157,6 +157,7 @@ function drawImages() {
                 starSound.play();
                 score++;
                 scoredStar.status = 0;
+                scoredStar.status = 0;
                 starSound.currentTime=0;
             }
         }
@@ -308,4 +309,7 @@ var runGame = function () {
     document.getElementById("newGame").style.display = "none";
     document.getElementById("theHead").style.display = "none";
     document.getElementById("main").style.display = "block";
+}
+var tuto = function () {
+    window.location.replace("tuto.html");
 }

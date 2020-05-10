@@ -123,13 +123,17 @@ function LineDrawer (onMode, startX, endX, y){
 
 }
 function drawImages() {
-    starIMG = new ImageDrawer(star.x, star.y, "images/flag_v4.png");
+
     sunIMG = new ImageDrawer(sun.x, sun.y, "images/sunvf.png");
 
     //ghost
     if (blackMode){
         monsterBlack = new ImageDrawer(monster.x, monster.y, "images/bghost.png");
-    } else monsterWhite = new ImageDrawer(monster.x, monster.y, "images/wghost_v2.png");
+        starIMG = new ImageDrawer(star.x, star.y, "images/blackFlag.png");
+    } else {
+        monsterWhite = new ImageDrawer(monster.x, monster.y, "images/wghost_v2.png");
+        starIMG = new ImageDrawer(star.x, star.y, "images/whiteFlag.png");
+    }
 
     //scoring star
     for (let index = level.scoringStar.length - 1; index > -1; -- index) {
@@ -142,6 +146,7 @@ function drawImages() {
                 && scoredStar.status == 1) {
                 starSound.play();
                 score++;
+                scoredStar.status = 0;
                 scoredStar.status = 0;
                 starSound.currentTime=0;
             }
@@ -278,5 +283,12 @@ window.requestAnimationFrame(draw);
 var runGame = function () {
     document.getElementById("newGame").style.display = "none";
     document.getElementById("theHead").style.display = "none";
+    document.getElementById("tuto").style.display = "none";
     document.getElementById("main").style.display = "block";
+}
+var runGame = function () {
+    document.getElementById("newGame").style.display = "none";
+    document.getElementById("theHead").style.display = "none";
+    document.getElementById("main").style.display = "none";
+    document.getElementById("tuto").style.display = "block";
 }

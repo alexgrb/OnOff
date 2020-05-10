@@ -12,17 +12,19 @@
 
 <div id="theHead">Tutorial</div>
 <div>
-    <p>In this game you will be a ghost. You have 3 goals.</p>
+    <h2>In this game you will be a ghost. You have 3 goals.</h2>
     <li>Get to the flag.</li>
     <li>Take the most star you can by going through them.</li>
-    <li>Don't die by falling or jumping on grey out platforms.</li>
+    <li>Don't die by falling or jumping on greyed out platforms.</li>
 <br>
-    <p>To reach your goals you can use the next commands :</p>
-    <li>Arrow pad to go Right, Left and also Jump</li>
+    <h2>To reach your goals you can use the next commands :</h2>
+    <li><mark>Arrow pad to go Right, Left and also Jump</mark></li>
     <li>SPACE BAR to make a greyed out platform solid</li>
 <br>
 </div>
-<img src="images/tuto.png" alt="Items of the game.">
+
+<img id="tutoImage" src="images/tutoBlack.png" alt="Items of the game.">
+<br>
 <br>
 <button id="backMenu" onclick="backMenu()" type="button" class="btn btn-dark">Back to Main Menu</button>
 </body>
@@ -33,12 +35,13 @@
 
     function changeColor(down) {
         if(down) {
-            console.log(document.body.style.background)
             if (document.body.style.background === "rgb(255, 255, 255)") {
                 document.body.style.background = "#202830";
+                document.getElementById("tutoImage").src = "images/tutoWhite.png";
             } else {
                 document.body.style.background = "#ffffff";
-                        }
+                document.getElementById("tutoImage").src = "images/tutoBlack.png";
+            }
         }
     }
     let controller =

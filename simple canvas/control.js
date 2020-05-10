@@ -11,7 +11,6 @@ var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
 var jumpSound = document.getElementById('jumpsound');
-var gameOverSound = document.getElementById('gameoversound');
 var mainStarSound = document.getElementById('mainstarsound');
 var starSound = document.getElementById('starsound');
 var levels = JSON.parse('{ "levels":' +
@@ -144,6 +143,7 @@ function drawImages() {
                 starSound.play();
                 score++;
                 scoredStar.status = 0;
+                starSound.currentTime=0;
             }
         }
     }
@@ -222,7 +222,7 @@ function draw() {
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
         mainStarSound.play();
         i++;
-        if(i === (levels.levels.length-1)){
+        if(i === (levels.levels.length)){
             exit(true);
         }
 
@@ -275,3 +275,8 @@ function changeColor(down) {
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
 window.requestAnimationFrame(draw);
+var runGame = function () {
+    document.getElementById("newGame").style.display = "none";
+    document.getElementById("theHead").style.display = "none";
+    document.getElementById("main").style.display = "block";
+}

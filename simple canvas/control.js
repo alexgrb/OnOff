@@ -10,6 +10,10 @@ var backgroundColor = "#ffffff";
 var blackMode = true;
 var whiteMode = false;
 var sound = document.getElementById('sound');
+var jumpSound = document.getElementById('jumpsound');
+var gameOverSound = document.getElementById('gameoversound');
+var mainStarSound = document.getElementById('mainstarsound');
+var starSound = document.getElementById('starsound');
 var levels = JSON.parse('{ "levels":' +
     '[' +
     '{"level": {"platforms": [{ "onMode":"blackMode", "startX":0, "endX":650, "y":700 }, { "onMode":"blackMode", "startX": 900, "endX":1500, "y":700 }], "star":{"x" : 1450, "y" : 650}, "scoringStar": [{"x" : 750, "y" : 500, "status":1}] }}, ' +
@@ -112,6 +116,8 @@ function LineDrawer (onMode, startX, endX, y){
     if (onMode && monster.y > y - 64 && monster.y < y+10 && monster.x > startX - 32 && monster.x < endX) {
         //set jumping to false so we can jump again
         monster.jumping = false;
+        jumpSound.pause();
+        jumpSound.currentTime=0;
         monster.y = y - 64;
         monster.y_velocity = 0;
     }
@@ -130,6 +136,7 @@ function drawImages() {
             if (monster.x <= (scoredStar.x + 50) && scoredStar.x <= (monster.x + 32)
                 && monster.y <= (scoredStar.y + 50) && scoredStar.y <= (monster.y + 32)
                 && scoredStar.status == 1) {
+                starSound.play();
                 score++;
                 scoredStar.status = 0;
             }
@@ -159,6 +166,7 @@ function draw() {
     if (controller.up && monster.jumping == false) {
         monster.y_velocity -= 40;
         monster.jumping = true;
+        jumpSound.play();
     }
     //easing motion when you add and build the velocity frame by frame
     if (controller.left) {
@@ -207,7 +215,12 @@ function draw() {
     //managing star
     if (monster.x <= (star.x + 50) && star.x <= (monster.x + 32)
         && monster.y <= (star.y + 50) && star.y <= (monster.y + 32)) {
+        mainStarSound.play();
         i++;
+        if(i === (levels.levels.length-1)){
+            exit(true);
+        }
+
         level = levels.levels[i].level;
         monster.x = 50;
         monster.y = 0;
@@ -215,23 +228,24 @@ function draw() {
         scoringStar = level.scoringStar;
     }
     if (lives<1) {
-        var name = prompt("Please enter your name", "lastPlayer");
-
         sound.pause();
         sound.currentTime=0;
-        isStorage && localStorage.setItem(name, score);
-
-        window.location.replace("gameover.html");
-        clearInterval(interval);
-        //document.location.reload();
-
+        exit(false);
     }
-
-
 
     requestAnimationFrame(draw);
 
 };
+function exit(win){
+    var name = prompt("Please enter your name", "first name");
+
+    if(name == null){
+        name = "lastplayer";
+    }
+    isStorage && localStorage.setItem(name, score);
+    window.location.replace("gameover.html?win=" + win);
+    clearInterval(interval);
+}
 
 function changeColor(down) {
 

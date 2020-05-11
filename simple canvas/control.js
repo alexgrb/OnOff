@@ -308,6 +308,7 @@ window.requestAnimationFrame(draw);
 var runGame = function () {
     document.getElementById("newGame").style.display = "none";
     document.getElementById("theHead").style.display = "none";
+    document.getElementById("tuto").style.display = "none";
     document.getElementById("main").style.display = "block";
 }
 var tuto = function () {

@@ -188,7 +188,6 @@ function draw() {
     /********************************************************
                         Physics
      ********************************************************/
-    //loadPlatforms("levels/level0.json");
     if (controller.up && ghost.jumping == false) {
         ghost.y_velocity -= 40;
         ghost.jumping = true;
